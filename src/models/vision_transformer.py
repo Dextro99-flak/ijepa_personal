@@ -5,6 +5,9 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+# Patch size of all vit functions has been changed from 16 to 2.
+# Image size and in_chans was also modified to become 64 and 188.
+
 import math
 from functools import partial
 import numpy as np
@@ -330,9 +333,9 @@ class VisionTransformer(nn.Module):
     """ Vision Transformer """
     def __init__(
         self,
-        img_size=[224],
-        patch_size=16,
-        in_chans=3,
+        img_size=[64],
+        patch_size=2,
+        in_chans=188,
         embed_dim=768,
         predictor_embed_dim=384,
         depth=12,
@@ -448,42 +451,42 @@ def vit_predictor(**kwargs):
     return model
 
 
-def vit_tiny(patch_size=16, **kwargs):
+def vit_tiny(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=192, depth=12, num_heads=3, mlp_ratio=4,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
 
-def vit_small(patch_size=16, **kwargs):
+def vit_small(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=384, depth=12, num_heads=6, mlp_ratio=4,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
 
-def vit_base(patch_size=16, **kwargs):
+def vit_base(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=768, depth=12, num_heads=12, mlp_ratio=4,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
 
-def vit_large(patch_size=16, **kwargs):
+def vit_large(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=1024, depth=24, num_heads=16, mlp_ratio=4,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
 
-def vit_huge(patch_size=16, **kwargs):
+def vit_huge(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=1280, depth=32, num_heads=16, mlp_ratio=4,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
 
-def vit_giant(patch_size=16, **kwargs):
+def vit_giant(patch_size=2, **kwargs):
     model = VisionTransformer(
         patch_size=patch_size, embed_dim=1408, depth=40, num_heads=16, mlp_ratio=48/11,
         qkv_bias=True, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
