@@ -41,7 +41,8 @@ from src.utils.logging import (
     grad_logger,
     AverageMeter)
 from src.utils.tensors import repeat_interleave_batch
-from src.datasets.imagenet1k import make_imagenet1k
+# from src.datasets.imagenet1k import make_imagenet1k
+from src.datasets.hyspecnet import make_hyspecnet_loader
 
 from src.helper import (
     load_checkpoint,
@@ -189,19 +190,25 @@ def main(args, resume_preempt=False):
         color_jitter=color_jitter)
 
     # -- init data-loaders/samplers
-    _, unsupervised_loader, unsupervised_sampler = make_imagenet1k(
-            transform=transform,
-            batch_size=batch_size,
-            collator=mask_collator,
-            pin_mem=pin_mem,
-            training=True,
-            num_workers=num_workers,
-            world_size=world_size,
-            rank=rank,
-            root_path=root_path,
-            image_folder=image_folder,
-            copy_data=copy_data,
-            drop_last=True)
+    # _, unsupervised_loader, unsupervised_sampler = make_imagenet1k(
+    #         transform=transform,
+    #         batch_size=batch_size,
+    #         collator=mask_collator,
+    #         pin_mem=pin_mem,
+    #         training=True,
+    #         num_workers=num_workers,
+    #         world_size=world_size,
+    #         rank=rank,
+    #         root_path=root_path,
+    #         image_folder=image_folder,
+    #         copy_data=copy_data,
+    #         drop_last=True)
+    _, unsupervised_loader, unsupervised_sampler = make_hyspecnet_loader(
+    transform=transform,
+    batch_size=batch_size,
+    collator=collator, 
+    num_workers=num_workers
+    )
     ipe = len(unsupervised_loader)
 
     # -- init optimizer and scheduler
