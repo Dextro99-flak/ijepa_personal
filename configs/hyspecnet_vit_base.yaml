@@ -18,6 +18,10 @@ data:
   crop_size: 128
   image_folder: ""
   use_gaussian_blur: false
+  color_jitter_strength: 0.0
+  crop_scale:
+    - 0.3
+    - 0.1
   use_horizontal_flip: false
   use_color_distortion: false
 optimization:
