@@ -1,4 +1,3 @@
-%%writefile configs/hyspecnet_vit_base.yaml
 data:
   root_path: "/kaggle/working"
   image_folder: ""
