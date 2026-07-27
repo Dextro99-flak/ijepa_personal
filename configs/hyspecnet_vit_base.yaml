@@ -19,6 +19,7 @@ data:
   image_folder: ""
   use_gaussian_blur: false
   use_horizontal_flip: false
+  use_color_distortion: false
 optimization:
   epochs: 50
   warmup_epochs: 5
