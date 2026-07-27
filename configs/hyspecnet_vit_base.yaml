@@ -18,6 +18,7 @@ data:
   crop_size: 128
   image_folder: ""
   use_gaussian_blur: false
+  use_horizontal_flip: false
 optimization:
   epochs: 50
   warmup_epochs: 5
