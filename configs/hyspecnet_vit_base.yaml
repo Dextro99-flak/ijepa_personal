@@ -1,43 +1,43 @@
+%%writefile configs/hyspecnet_vit_base.yaml
+data:
+  root_path: "/kaggle/working"
+  image_folder: ""
+  batch_size: 32 # Fits on a Kaggle T4
+  num_workers: 2 # Safe for Kaggle's shared memory limit
+  pin_mem: true
+  crop_size: 128 # Must match HySpecNet-11k spatial resolution
+  crop_scale: [0.3, 1.0]
+  color_jitter_strength: 0.0
+  use_color_distortion: false # Prevents crashing on 224 channels
+  use_gaussian_blur: false # Prevents crashing on 224 channels
+  use_horizontal_flip: true
+logging:
+  folder: "/kaggle/working/logs/vitb-hyspec" # Valid Kaggle path
+  write_tag: jepa
+mask:
+  allow_overlap: false
+  patch_size: 16 # 128 / 16 = 8x8 patch grid
+  aspect_ratio: [0.75, 1.5]
+  num_enc_masks: 1
+  enc_mask_scale: [0.85, 1.0]
+  num_pred_masks: 4
+  pred_mask_scale: [0.15, 0.2]
+  min_keep: 4 # Reduced from 10 because a 128x128 image only has 64 patches total
 meta:
+  model_name: "vit_base" # Scaled down from Huge for Kaggle constraints
   use_bfloat16: true
-  model_name: "vit_base"
   copy_data: false
   pred_depth: 4
   pred_emb_dim: 384
   load_checkpoint: false
   read_checkpoint: null
-mask:
-  patch_size: 16
-  allow_overlap: false
-  min_keep: 4
-  enc_mask_scale:
-    - 0.1
-    - 0.25
-  aspect_ratio:
-    - 0.75
-    - 1.0
-  num_enc_mask: 1
-  num_pred_mask: 4
-  pred_mask_scale:
-    - 0.15
-    - 0.2
-data:
-  root_path: "/kaggle/working"
-  batch_size: 32
-  num_workers: 2
-  pin_mem: true
-  crop_size: 128
-  image_folder: ""
-  use_gaussian_blur: false
-  color_jitter_strength: 0.0
-  crop_scale:
-    - 0.3
-    - 0.1
-  use_horizontal_flip: false
-  use_color_distortion: false
 optimization:
   epochs: 50
-  warmup_epochs: 5
+  warmup: 5 # Match this key name to the ViT-Huge reference
   lr: 0.001
-  min_lr: 0.00001
+  start_lr: 0.0002
+  final_lr: 1.0e-06
   weight_decay: 0.05
+  final_weight_decay: 0.4
+  ipe_scale: 1.0
+  ema: [0.996, 1.0]
