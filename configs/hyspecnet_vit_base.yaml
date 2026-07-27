@@ -12,6 +12,7 @@ mask:
   min_keep: 4
   mask_scale: [0.1, 0.25]
 data:
+  root_path: "/kaggle/working"
   batch_size: 32
   num_workers: 2
   pin_mem: true
