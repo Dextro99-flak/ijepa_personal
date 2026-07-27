@@ -206,7 +206,7 @@ def main(args, resume_preempt=False):
     unsupervised_loader, unsupervised_sampler = make_hyspecnet_loader(
     transform=transform,
     batch_size=batch_size,
-    collator=collator, 
+    collator=mask_collator, 
     num_workers=num_workers
     )
     ipe = len(unsupervised_loader)
