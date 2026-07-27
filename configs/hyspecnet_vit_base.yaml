@@ -10,7 +10,17 @@ mask:
   patch_size: 16
   allow_overlap: false
   min_keep: 4
-  mask_scale: [0.1, 0.25]
+  enc_mask_scale:
+    - 0.1
+    - 0.25
+  aspect_ratio:
+    - 0.75
+    - 1.0
+  num_enc_mask: 1
+  num_pred_mask: 4
+  pred_mask_scale:
+    - 0.15
+    - 0.2
 data:
   root_path: "/kaggle/working"
   batch_size: 32
