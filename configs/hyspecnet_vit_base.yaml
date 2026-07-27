@@ -17,6 +17,7 @@ data:
   pin_mem: true
   crop_size: 128
   image_folder: ""
+  use_gaussian_blur: false
 optimization:
   epochs: 50
   warmup_epochs: 5
