@@ -4,6 +4,8 @@ meta:
   copy_data: false
   pred_depth: 4
   pred_emb_dim: 384
+  load_checkpoint: false
+  read_checkpoint: null
 mask:
   patch_size: 16
   allow_overlap: false
