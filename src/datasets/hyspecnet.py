@@ -7,7 +7,7 @@ import numpy as np
 class HFHySpecNetDataset(Dataset):
     def __init__(self, split='train', transform=None):
         # Loads directly via HF API to bypass local torchgeo extraction corruption
-        self.dataset = load_dataset("torchgeo/hyperspecnet11k", split=split)
+        self.dataset = load_dataset("torchgeo/hyspecnet", split='train:5000')
         self.transform = transform
         
     def __len__(self):
