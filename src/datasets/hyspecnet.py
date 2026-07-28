@@ -18,18 +18,26 @@ class HFHySpecNetDataset(Dataset):
         else:
             self.dataset = load_from_disk(self.data_path)
             
-        # cast_column("image", Image(decode=False)) removed because we bypass HF formatting entirely
+        # THE FIX: Disable all Hugging Face automatic feature decoding.
+        # This completely prevents PIL from trying to open the 224-channel array.
+        self.dataset = self.dataset.with_format(None)
+        
         self.transform = transform
         
     def __len__(self):
         return len(self.dataset)
         
     def __getitem__(self, idx):
-        # BYPASS Hugging Face's formatter to avoid PIL UnidentifiedImageError.
-        # Access the underlying Apache Arrow table to extract the raw bytes directly.
-        img_dict = self.dataset.data.column('image')[idx].as_py()
-        img_bytes = img_dict['bytes']
+        # Because of with_format(None), this returns a raw python dictionary
+        item = self.dataset[idx]
         
+        # Safely extract the raw bytes from the dictionary
+        img_data = item['image']
+        if isinstance(img_data, dict) and 'bytes' in img_data:
+            img_bytes = img_data['bytes']
+        else:
+            img_bytes = img_data # Fallback if it is stored as direct bytes
+            
         # Decode the raw bytes safely using tifffile
         img = tifffile.imread(io.BytesIO(img_bytes))
         
