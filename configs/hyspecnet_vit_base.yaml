@@ -1,5 +1,5 @@
 data:
-  root_path: "/kaggle/working"
+  root_path: "/content"
   image_folder: ""
   batch_size: 32 # Fits on a Kaggle T4
   num_workers: 2 # Safe for Kaggle's shared memory limit
@@ -11,7 +11,7 @@ data:
   use_gaussian_blur: false # Prevents crashing on 224 channels
   use_horizontal_flip: true
 logging:
-  folder: "/kaggle/working/logs/vitb-hyspec" # Valid Kaggle path
+  folder: "/content/logs/vitb-hyspec" # Valid Kaggle path
   write_tag: jepa
 mask:
   allow_overlap: false
