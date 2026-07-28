@@ -1,13 +1,18 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.distributed import DistributedSampler
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 import numpy as np
 
 class HFHySpecNetDataset(Dataset):
     def __init__(self, split='train', transform=None):
         # Loads directly via HF API to bypass local torchgeo extraction corruption
-        self.dataset = load_dataset("torchgeo/hyspecnet", split='train:5000')
+        self.data_path = "/content/drive/MyDrive/hyspecnet11k/datasets/torchgeo___hyspecnet/default/0.0.0/13e110422a6925cbac0f11edff610219b9399227"
+        self.swiper = False
+        if self.swiper:
+            self.dataset = load_dataset("torchgeo/hyspecnet", split='train:5000')
+        else:
+            self.dataset = load_from_disk(self.data_path)
         self.transform = transform
         
     def __len__(self):
