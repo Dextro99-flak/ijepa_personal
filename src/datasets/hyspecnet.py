@@ -1,8 +1,10 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data.distributed import DistributedSampler
-from datasets import load_dataset, load_from_disk
+from datasets import load_dataset, load_from_disk, Image
 import numpy as np
+import tifffile
+import io
 
 class HFHySpecNetDataset(Dataset):
     def __init__(self, split='train', transform=None):
@@ -11,9 +13,10 @@ class HFHySpecNetDataset(Dataset):
         self.data_path = ""
         self.swiper = True
         if self.swiper:
-            self.dataset = load_dataset("torchgeo/hyspecnet", cache_dir=drive_cache)
+            self.dataset = load_dataset("torchgeo/hyspecnet", cache_dir=drive_cache, split="train")
         else:
             self.dataset = load_from_disk(self.data_path)
+        self.dataset = self.dataset.cast_column("image", Image(decode=False))
         self.transform = transform
         
     def __len__(self):
@@ -23,7 +26,11 @@ class HFHySpecNetDataset(Dataset):
         item = self.dataset[idx]
         
         # Convert the array to a float32 PyTorch tensor
-        img = np.array(item['image'], dtype=np.float32)
+        # img = np.array(item['image'], dtype=np.float32)
+        # img = torch.from_numpy(img)
+        img_bytes = item['image']['bytes']
+        img = tifffile.imread(io.BytesIO(img_bytes))
+        img = np.array(img, dtype=np.float32)
         img = torch.from_numpy(img)
         
         # I-JEPA expects channel-first format (224, 128, 128)
