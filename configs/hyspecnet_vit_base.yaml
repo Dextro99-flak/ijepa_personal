@@ -2,7 +2,7 @@ data:
   root_path: "/content"
   image_folder: ""
   batch_size: 32 # Fits on a Kaggle T4
-  num_workers: 2 # Safe for Kaggle's shared memory limit
+  num_workers: 0 # Safe for Kaggle's shared memory limit
   pin_mem: true
   crop_size: 128 # Must match HySpecNet-11k spatial resolution
   crop_scale: [0.3, 1.0]
