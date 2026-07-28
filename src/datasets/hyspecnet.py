@@ -7,10 +7,11 @@ import numpy as np
 class HFHySpecNetDataset(Dataset):
     def __init__(self, split='train', transform=None):
         # Loads directly via HF API to bypass local torchgeo extraction corruption
-        self.data_path = "/content/drive/MyDrive/hyspecnet11k/datasets/torchgeo___hyspecnet/default/0.0.0/13e110422a6925cbac0f11edff610219b9399227"
-        self.swiper = False
+        drive_cache = "/content/drive/MyDrive/hyspecnet11k/datasets"
+        self.data_path = ""
+        self.swiper = True
         if self.swiper:
-            self.dataset = load_dataset("torchgeo/hyspecnet", split='train:5000')
+            self.dataset = load_dataset("torchgeo/hyspecnet", cache_dir=drive_cache)
         else:
             self.dataset = load_from_disk(self.data_path)
         self.transform = transform
